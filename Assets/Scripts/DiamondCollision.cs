@@ -23,7 +23,41 @@ public class DiamondCollision : MonoBehaviour
         {
             Debug.Log("Player touched the diamond");
             // Deactivate (hide) the diamond.
-            gameObject.SetActive(false);
+            
+
+            // Color diamondColor = GetComponent<SpriteRenderer>().material.color;
+            // Color playerColor = other.GetComponent<SpriteRenderer>().material.color;
+            // Debug.Log(diamondColor);
+            // Debug.Log(playerColor);
+            SpriteRenderer diamondRenderer = GetComponent<SpriteRenderer>();
+            SpriteRenderer playerRenderer = other.GetComponent<SpriteRenderer>();
+            if (diamondRenderer != null && playerRenderer != null)
+            {
+                Color diamondColor =  diamondRenderer.color;
+                Color playerColor = playerRenderer.color;
+                Debug.Log(diamondColor);
+                Debug.Log(playerColor);
+                if (diamondColor != playerColor)
+                {
+                    // Increase the distance between the players connected by the hinge joint.
+                    // You can access the Hinge Joint 2D component and change the joint's connectedAnchor property.
+                    HingeJoint2D hingeJoint = other.GetComponent<HingeJoint2D>();
+
+                    if (hingeJoint != null)
+                    {
+                        Debug.Log("Joint is there");
+                        // Increase the Y-coordinate of the connected anchor to move the player upwards.
+                        Vector2 newConnectedAnchor = hingeJoint.connectedAnchor;
+                        Debug.Log(newConnectedAnchor.y);
+                        newConnectedAnchor.y += 10.0f; // Adjust the value as needed.
+                        hingeJoint.connectedAnchor = newConnectedAnchor;
+                    }
+                }else{
+                    Debug.Log("Color is Same");
+                    // gameObject.SetActive(false);
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

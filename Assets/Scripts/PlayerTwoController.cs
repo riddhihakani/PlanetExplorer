@@ -3,30 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public class PlayerMovement : MonoBehaviour
+public class PlayerTwoController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
+    public float speed = 5f;
     private Rigidbody2D rb;
     private Vector3 originalScale;
     public float shrinkAmount = 0.3f;
     public float minSize = 0.5f;
-    //private bool gameOver = false;
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        originalScale = transform.localScale;
+         rb = GetComponent<Rigidbody2D>();
+         originalScale = transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        Vector2 movement = new Vector2(0f, verticalInput);
-        rb.velocity = movement * moveSpeed;
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        Vector2 movement = new Vector2(moveHorizontal, 0f);
+        rb.velocity = movement * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

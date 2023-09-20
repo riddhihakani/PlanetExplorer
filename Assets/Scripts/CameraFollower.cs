@@ -6,7 +6,7 @@ public class CameraFollower : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform target;
-    public Vector3 offset = new Vector3(0, 0, -10);
+    public Vector3 offset = new Vector3(0, 0, 0);
     void Start()
     {
         

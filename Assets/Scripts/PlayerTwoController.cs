@@ -9,8 +9,8 @@ public class PlayerTwoController : MonoBehaviour
     public float speed = 5f;
     private Rigidbody2D rb;
     private Vector3 originalScale;
-    public float shrinkAmount = 0.3f;
-    public float minSize = 0.5f;
+    public float shrinkAmount = 0.5f;
+    public float minSize = 1.0f;
     void Start()
     {
          rb = GetComponent<Rigidbody2D>();
@@ -35,11 +35,12 @@ public class PlayerTwoController : MonoBehaviour
             Vector3 newScale = transform.localScale - new Vector3(shrinkAmount, shrinkAmount, 0f);
             // Ensure that the player's scale doesn't go below a minimum size (optional).
             newScale = Vector3.Max(newScale, new Vector3(minSize, minSize, minSize));
-            transform.localScale = newScale;
-            if (transform.localScale.x <= minSize)
+            if (newScale.x <= minSize)
             {
                 // Game over condition
                 GameOver();
+            } else {
+                transform.localScale = newScale;
             }
         }
     }

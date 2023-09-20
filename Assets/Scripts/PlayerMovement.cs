@@ -10,8 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
     private Vector3 originalScale;
-    public float shrinkAmount = 0.3f;
-    public float minSize = 0.5f;
+    public float shrinkAmount = 0.5f;
+    public float minSize = 1.0f;
     //private bool gameOver = false;
     void Start()
     {
@@ -34,16 +34,17 @@ public class PlayerMovement : MonoBehaviour
         // Check if the player enters the trigger zone of the object you want to react to.
         if (other.CompareTag("Planet"))
         {
-            // Reduce the player's scale.
-            //transform.localScale = originalScale * shrinkScale;
+            
             Vector3 newScale = transform.localScale - new Vector3(shrinkAmount, shrinkAmount, 0f);
-            // Ensure that the player's scale doesn't go below a minimum size (optional).
+        
             newScale = Vector3.Max(newScale, new Vector3(minSize, minSize, minSize));
-            transform.localScale = newScale;
-            if (transform.localScale.x <= minSize)
+            
+            if (newScale.x <= minSize)
             {
                 // Game over condition
                 GameOver();
+            }else{
+                transform.localScale = newScale;
             }
         }
     }

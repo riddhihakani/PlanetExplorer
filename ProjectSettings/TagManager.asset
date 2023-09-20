@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Diamond
   - Planet
+  - BulletSpawnPoint
   layers:
   - Default
   - TransparentFX

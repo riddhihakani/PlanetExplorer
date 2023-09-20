@@ -11,7 +11,7 @@ public class GunController : MonoBehaviour
     public float bulletSpeed = 15.0f;  
     private float currentRotation = 0.0f; // Current rotation of the gun.
     private float lastFireTime = 0.0f;   // Time when the last bullet was fired.
-    
+    private bool clockwise = false;    
     
     void Start()
     {

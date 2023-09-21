@@ -13,8 +13,9 @@ public class PlayerTwoController : MonoBehaviour
     public float minSize = 1.0f;
     void Start()
     {
-         rb = GetComponent<Rigidbody2D>();
-         originalScale = transform.localScale;
+        rb = GetComponent<Rigidbody2D>();
+        originalScale = transform.localScale;
+        // gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -45,15 +46,7 @@ public class PlayerTwoController : MonoBehaviour
         }
         else if (other.CompareTag("Planet"))
         {
-            // Reduce player size.
-            // playerSize--;
-            // planetCollisions++;
-
-            // if (planetCollisions >= 3)
-            // {
-            //     // Game over, restart the scene.
-            //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            // }
+            
             Debug.Log("Collision");
             Vector3 currentScale = transform.localScale;
             currentScale.x -= 0.5f;

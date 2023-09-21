@@ -15,6 +15,7 @@ TagManager:
   - Bullet
   - GameManager
   - Gold
+  - Stone
   layers:
   - Default
   - TransparentFX

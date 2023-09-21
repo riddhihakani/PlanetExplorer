@@ -7,6 +7,10 @@ TagManager:
   - Diamond
   - Planet
   - BulletSpawnPoint
+  - PinkPlayer
+  - GreenPlayer
+  - PinkFood
+  - GreenFood
   layers:
   - Default
   - TransparentFX

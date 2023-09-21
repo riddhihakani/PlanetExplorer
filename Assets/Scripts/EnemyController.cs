@@ -21,25 +21,23 @@ public class EnemyController : MonoBehaviour
         bulletSpawnPoint = transform.Find("BulletSpawnPoint");
     }
 
-    // Update is called once per frame
+  
     void Update()
     {
-         // Move the gun horizontally.
-        if (movingRight)
+        Vector3 moveDirection = movingRight ? Vector3.right : Vector3.left;
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+
+        // Check if the gun needs to change direction.
+        if ((transform.localScale.x > 0 && transform.position.x >= startPosition.x + moveDistance) ||
+            (transform.localScale.x < 0 && transform.position.x <= startPosition.x))
         {
-            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-            if (transform.position.x >= startPosition.x + moveDistance)
-            {
-                movingRight = false;
-            }
-        }
-        else
-        {
-            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
-            if (transform.position.x <= startPosition.x)
-            {
-                movingRight = true;
-            }
+            // Reverse the movement direction.
+            movingRight = !movingRight;
+
+            // Flip the gun's scale to match the new direction.
+            Vector3 newScale = transform.localScale;
+            newScale.x = -newScale.x; // Flip the X scale to invert the gun.
+            transform.localScale = newScale;
         }
 
         // Check if it's time to fire a bullet.
@@ -48,6 +46,7 @@ public class EnemyController : MonoBehaviour
             FireBullet();
             lastFireTime = Time.time;
         }
+
     }
 
     private void FireBullet()
@@ -56,6 +55,14 @@ public class EnemyController : MonoBehaviour
 
         // Set the bullet's initial velocity in the upward direction.
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = Vector2.up * bulletSpeed; 
+        // rb.velocity = Vector2.up * bulletSpeed; 
+        if (transform.up.y < 0)
+        {
+            rb.velocity = Vector2.down * bulletSpeed;
+        }
+        else
+        {
+            rb.velocity = Vector2.up * bulletSpeed;
+        }
     }
 }

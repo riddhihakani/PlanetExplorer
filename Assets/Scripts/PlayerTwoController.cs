@@ -27,28 +27,71 @@ public class PlayerTwoController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the player enters the trigger zone of the object you want to react to.
-        if (other.CompareTag("Planet"))
+        if (other.CompareTag("GreenFood"))
         {
-            // Reduce the player's scale.
-            //transform.localScale = originalScale * shrinkScale;
-            Vector3 newScale = transform.localScale - new Vector3(shrinkAmount, shrinkAmount, 0f);
-            // Ensure that the player's scale doesn't go below a minimum size (optional).
-            newScale = Vector3.Max(newScale, new Vector3(minSize, minSize, minSize));
-            if (newScale.x <= minSize)
+            // Destroy the green diamond.
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("PinkFood"))
+        {
+            // Reduce player size.
+            // playerSize--;
+            // if (playerSize <= 0)
+            // {
+            //     // Game over, restart the scene.
+            //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            // }
+            Debug.Log("Different Color");
+        }
+        else if (other.CompareTag("Planet"))
+        {
+            // Reduce player size.
+            // playerSize--;
+            // planetCollisions++;
+
+            // if (planetCollisions >= 3)
+            // {
+            //     // Game over, restart the scene.
+            //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            // }
+            Debug.Log("Collision");
+            Vector3 currentScale = transform.localScale;
+            currentScale.x -= 0.5f;
+            currentScale.y -= 0.5f;
+            transform.localScale = currentScale;
+
+            if (currentScale.x <= 0.5 || currentScale.y <= 0.5)
             {
-                // Game over condition
-                GameOver();
-            } else {
-                transform.localScale = newScale;
+                // Player has shrunk too much, game over, restart the scene.
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
     }
 
+    // private void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     // Check if the player enters the trigger zone of the object you want to react to.
+    //     if (other.CompareTag("Planet"))
+    //     {
+    //         // Reduce the player's scale.
+    //         //transform.localScale = originalScale * shrinkScale;
+    //         Vector3 newScale = transform.localScale - new Vector3(shrinkAmount, shrinkAmount, 0f);
+    //         // Ensure that the player's scale doesn't go below a minimum size (optional).
+    //         newScale = Vector3.Max(newScale, new Vector3(minSize, minSize, minSize));
+    //         if (newScale.x <= minSize)
+    //         {
+    //             // Game over condition
+    //             GameOver();
+    //         } else {
+    //             transform.localScale = newScale;
+    //         }
+    //     }
+    // }
 
-    void GameOver()
-    {
+
+    // void GameOver()
+    // {
         
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    // }
 }

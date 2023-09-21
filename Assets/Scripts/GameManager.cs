@@ -12,17 +12,7 @@ public class GameManager : MonoBehaviour
 
     private int player1Hits;
     private int player2Hits;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject); // Destroy duplicate GameManager objects
-        }
-    }
+    
 
     void Start()
     {
@@ -36,13 +26,13 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void PlayerHit(GameObject player){
-        if (player.CompareTag("PinkPlayer"))
+    public void PlayerHit(int playerNumber){
+        if (playerNumber == 1)
         {
             Debug.Log("Pink was hit");
             player1Hits++;
         }
-        else if (player.CompareTag("GreenPlayer"))
+        else if (playerNumber == 2)
         {
             Debug.Log("Green was hit");
             player2Hits++;

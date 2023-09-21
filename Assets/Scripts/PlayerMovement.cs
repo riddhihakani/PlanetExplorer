@@ -11,15 +11,19 @@ public class PlayerMovement : MonoBehaviour
     // private int planetCollisions = 0; 
     public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
-    private Vector3 originalScale;
-    public float shrinkAmount = 0.5f;
-    public float minSize = 1.0f;
+    private Vector3 currentScale;
+    private int hit;
+    private GameManager gameManager;
+    // public float shrinkAmount = 0.5f;
+    // public float minSize = 1.0f;
     //private bool gameOver = false;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        originalScale = transform.localScale;
-        // gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+       
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        currentScale = transform.localScale;
+        hit = 0;
     }
 
     // Update is called once per frame
@@ -55,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
             else if (other.CompareTag("Planet"))
             {
                 Debug.Log("Collision");
-                Vector3 currentScale = transform.localScale;
+                
                 currentScale.x -= 0.5f;
                 currentScale.y -= 0.5f;
                 transform.localScale = currentScale;
@@ -67,12 +71,25 @@ public class PlayerMovement : MonoBehaviour
                 }
                 
             }
-
-            if (other.gameObject.CompareTag("Bullet"))
+            else if (other.gameObject.CompareTag("Bullet"))
             {
                 Debug.Log("Bullet hit player1");
-                GameManager.Instance.PlayerHit(gameObject); 
-                Destroy(other.gameObject);
+                // gameManager.PlayerHit(1); 
+                // Destroy(other.gameObject);
+                hit++;
+                if(hit>2){
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
+            }
+            else if(other.gameObject.CompareTag("Gold"))
+            {
+                if (currentScale.x < 2 || currentScale.y < 2){
+                    currentScale.x += 0.5f;
+                    currentScale.y += 0.5f;
+                    transform.localScale = currentScale;
+                    Destroy(other.gameObject);
+                }
+                
             }
         }
     }

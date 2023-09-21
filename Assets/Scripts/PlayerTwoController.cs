@@ -8,13 +8,16 @@ public class PlayerTwoController : MonoBehaviour
     // Start is called before the first frame update
     public float speed = 5f;
     private Rigidbody2D rb;
-    private Vector3 originalScale;
-    public float shrinkAmount = 0.5f;
-    public float minSize = 1.0f;
+    private Vector3 currentScale;
+    private int hit;
+    // private GameManager gameManager;
+    // public float shrinkAmount = 0.5f;
+    // public float minSize = 1.0f;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        originalScale = transform.localScale;
+        currentScale = transform.localScale;
+        hit = 0;
         // gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
@@ -50,7 +53,7 @@ public class PlayerTwoController : MonoBehaviour
             {
                 
                 Debug.Log("Collision");
-                Vector3 currentScale = transform.localScale;
+               
                 currentScale.x -= 0.5f;
                 currentScale.y -= 0.5f;
                 transform.localScale = currentScale;
@@ -64,8 +67,23 @@ public class PlayerTwoController : MonoBehaviour
             if (other.gameObject.CompareTag("Bullet"))
             {
                 Debug.Log("Bullet hit player2");
-                GameManager.Instance.PlayerHit(gameObject); 
-                Destroy(other.gameObject);
+                // gameManager.PlayerHit(2); 
+                // Destroy(other.gameObject);
+                hit++;
+                if(hit>2){
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
+            }
+            else if(other.gameObject.CompareTag("Gold"))
+            {
+                Debug.Log("hi");
+                if (currentScale.x < 2 || currentScale.y < 2){
+                    currentScale.x += 0.5f;
+                    currentScale.y += 0.5f;
+                    transform.localScale = currentScale;
+                    Destroy(other.gameObject);
+                }
+                
             }
         }
     }

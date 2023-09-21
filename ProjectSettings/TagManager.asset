@@ -12,6 +12,8 @@ TagManager:
   - PinkFood
   - GreenFood
   - PlayerManager
+  - Bullet
+  - GameManager
   layers:
   - Default
   - TransparentFX

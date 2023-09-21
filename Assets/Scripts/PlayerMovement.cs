@@ -34,38 +34,49 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("PinkFood"))
+        if(other!=null)
         {
-            // Destroy the green diamond.
-            Destroy(other.gameObject);
-        }
-        else if (other.CompareTag("GreenFood"))
-        {
-            // Reduce player size.
-            // playerSize--;
-            // if (playerSize <= 0)
-            // {
-            //     // Game over, restart the scene.
-            //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            // }
-            Debug.Log("Different Color");
-        }
-        else if (other.CompareTag("Planet"))
-        {
-            Debug.Log("Collision");
-            Vector3 currentScale = transform.localScale;
-            currentScale.x -= 0.5f;
-            currentScale.y -= 0.5f;
-            transform.localScale = currentScale;
-
-            if (currentScale.x <= 0.5 || currentScale.y <= 0.5)
+            if (other.CompareTag("PinkFood"))
             {
-                // Player has shrunk too much, game over, restart the scene.
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                // Destroy the green diamond.
+                Destroy(other.gameObject);
             }
-            
+            else if (other.CompareTag("GreenFood"))
+            {
+                // Reduce player size.
+                // playerSize--;
+                // if (playerSize <= 0)
+                // {
+                //     // Game over, restart the scene.
+                //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                // }
+                Debug.Log("Different Color");
+            }
+            else if (other.CompareTag("Planet"))
+            {
+                Debug.Log("Collision");
+                Vector3 currentScale = transform.localScale;
+                currentScale.x -= 0.5f;
+                currentScale.y -= 0.5f;
+                transform.localScale = currentScale;
+
+                if (currentScale.x <= 0.5 || currentScale.y <= 0.5)
+                {
+                    // Player has shrunk too much, game over, restart the scene.
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
+                
+            }
+
+            if (other.gameObject.CompareTag("Bullet"))
+            {
+                Debug.Log("Bullet hit player1");
+                GameManager.Instance.PlayerHit(gameObject); 
+                Destroy(other.gameObject);
+            }
         }
     }
+        
     // private void OnTriggerEnter2D(Collider2D other)
     // {
     //     // Check if the player enters the trigger zone of the object you want to react to.

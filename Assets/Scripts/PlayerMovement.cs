@@ -6,22 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    // private int playerSize = 3; 
-    // private int planetCollisions = 0; 
+   
     public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
     private Vector3 currentScale;
     private int hit;
-    private GameManager gameManager;
-    // public float shrinkAmount = 0.5f;
-    // public float minSize = 1.0f;
-    //private bool gameOver = false;
+    public Transform connectionPoint;
+    public GameObject targetObject;
+    public GameObject playerToMove; 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
        
-        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        // gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         currentScale = transform.localScale;
         hit = 0;
     }
@@ -90,6 +88,21 @@ public class PlayerMovement : MonoBehaviour
                     Destroy(other.gameObject);
                 }
                 
+            }
+            else if(other.CompareTag("Stone"))
+            {
+                // Increase the length of the Hinge Joint by modifying the connectedAnchor.
+                Debug.Log("in stone");
+                connectionPoint.Translate(Vector2.up * 1.5f); 
+                Transform targetTransform = targetObject.transform.Find("string");
+                GameObject targetChildObject = targetTransform.gameObject;
+                Vector3 newScale = targetChildObject.transform.localScale;
+                newScale.y *= 1.5f; // Increase the length (adjust as needed).
+                targetChildObject.transform.localScale = newScale;
+
+                Vector3 newPosition = playerToMove.transform.position;
+                newPosition.y *= 1.5f; // Adjust the position (align with object's length increase).
+                playerToMove.transform.position = newPosition;
             }
         }
     }

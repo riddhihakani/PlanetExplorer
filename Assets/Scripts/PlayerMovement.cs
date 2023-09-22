@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -10,18 +11,20 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
     private Vector3 currentScale;
-    private int hit;
+   
     // public Transform connectionPoint;
     public GameObject targetObject;
     // public GameObject playerToMove; 
+    
+
+    // private TextDisplay textDisplay;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-       
-        // gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         currentScale = transform.localScale;
-        hit = 0;
+       
+        
     }
 
     // Update is called once per frame
@@ -31,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         Vector2 movement = new Vector2(0f, verticalInput);
         rb.velocity = movement * moveSpeed;
+        
+        
     }
 
     
@@ -74,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Bullet hit player1");
                 // gameManager.PlayerHit(1); 
                 // Destroy(other.gameObject);
-                hit++;
+         
                 if(currentScale.x <= 1.0f || currentScale.y <= 1.0f){
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 }else{
@@ -112,11 +117,16 @@ public class PlayerMovement : MonoBehaviour
             }
             else if(other.CompareTag("FinalPlanet"))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                // textDisplay.DisplayWinMessage();
+                Invoke("RestartGame", 2f);
             }
         }
     }
         
-   
+    private void RestartGame()
+    {
+        // Reload the current scene to restart the game.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     
 }

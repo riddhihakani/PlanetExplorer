@@ -16,6 +16,8 @@ TagManager:
   - GameManager
   - Gold
   - Stone
+  - FinalPlanet
+  - ScreenBound
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerTwoController : MonoBehaviour
 {
@@ -9,16 +10,17 @@ public class PlayerTwoController : MonoBehaviour
     public float speed = 5f;
     private Rigidbody2D rb;
     private Vector3 currentScale;
-    private int hit;
+    
     public GameObject targetObject;
-    // private GameManager gameManager;
-    // public float shrinkAmount = 0.5f;
-    // public float minSize = 1.0f;
+    
+    // private TextDisplay textDisplay;
+   
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentScale = transform.localScale;
-        hit = 0;
+        // textDisplay = FindObjectOfType<TextDisplay>();
+       
         // gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
@@ -70,7 +72,7 @@ public class PlayerTwoController : MonoBehaviour
                 Debug.Log("Bullet hit player1");
                 // gameManager.PlayerHit(1); 
                 // Destroy(other.gameObject);
-                hit++;
+             
                 if(currentScale.x <= 1.0f || currentScale.y <= 1.0f){
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 }else{
@@ -107,9 +109,16 @@ public class PlayerTwoController : MonoBehaviour
                 
             }
             else if(other.CompareTag("FinalPlanet")){
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                // textDisplay.DisplayWinMessage();
+                Invoke("RestartGame", 2f);
             }
         }
+    }
+
+    private void RestartGame()
+    {
+        // Reload the current scene to restart the game.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // private void OnTriggerEnter2D(Collider2D other)

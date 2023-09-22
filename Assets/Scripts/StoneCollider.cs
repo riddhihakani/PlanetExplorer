@@ -29,7 +29,7 @@ public class StoneCollider : MonoBehaviour
     {
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        // Check if the object has reached the target
+            // Check if the object has reached the target
         if ((Vector2)transform.position == targetPosition)
         {
             // Generate a new random target position

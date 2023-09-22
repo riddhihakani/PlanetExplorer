@@ -11,9 +11,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 currentScale;
     private int hit;
-    public Transform connectionPoint;
+    // public Transform connectionPoint;
     public GameObject targetObject;
-    public GameObject playerToMove; 
+    // public GameObject playerToMove; 
 
     void Start()
     {
@@ -41,31 +41,31 @@ public class PlayerMovement : MonoBehaviour
             if (other.CompareTag("PinkFood"))
             {
                 // Destroy the green diamond.
+                if (currentScale.x < 3.0f || currentScale.y < 3.0f){
+                    currentScale.x += 0.5f;
+                    currentScale.y += 0.5f;
+                    transform.localScale = currentScale;
+                   
+                }
                 Destroy(other.gameObject);
             }
             else if (other.CompareTag("GreenFood"))
             {
-                // Reduce player size.
-                // playerSize--;
-                // if (playerSize <= 0)
-                // {
-                //     // Game over, restart the scene.
-                //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                // }
+               
                 Debug.Log("Different Color");
             }
             else if (other.CompareTag("Planet"))
             {
                 Debug.Log("Collision");
-                
-                currentScale.x -= 0.5f;
-                currentScale.y -= 0.5f;
-                transform.localScale = currentScale;
 
-                if (currentScale.x <= 0.5 || currentScale.y <= 0.5)
+                if (currentScale.x <= 1.0f || currentScale.y <= 1.0f)
                 {
                     // Player has shrunk too much, game over, restart the scene.
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }else{
+                    currentScale.x -= 0.5f;
+                    currentScale.y -= 0.5f;
+                    transform.localScale = currentScale;
                 }
                 
             }
@@ -75,13 +75,18 @@ public class PlayerMovement : MonoBehaviour
                 // gameManager.PlayerHit(1); 
                 // Destroy(other.gameObject);
                 hit++;
-                if(hit>2){
+                if(currentScale.x <= 1.0f || currentScale.y <= 1.0f){
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }else{
+                    currentScale.x -= 0.5f;
+                    currentScale.y -= 0.5f;
+                    transform.localScale = currentScale;
                 }
+                
             }
             else if(other.gameObject.CompareTag("Gold"))
             {
-                if (currentScale.x < 2 || currentScale.y < 2){
+                if (currentScale.x < 3.0f || currentScale.y < 3.0f){
                     currentScale.x += 0.5f;
                     currentScale.y += 0.5f;
                     transform.localScale = currentScale;
@@ -93,44 +98,25 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Increase the length of the Hinge Joint by modifying the connectedAnchor.
                 Debug.Log("in stone");
-                connectionPoint.Translate(Vector2.up * 1.5f); 
+                // connectionPoint.Translate(Vector2.up * 1.5f); 
                 Transform targetTransform = targetObject.transform.Find("string");
                 GameObject targetChildObject = targetTransform.gameObject;
                 Vector3 newScale = targetChildObject.transform.localScale;
-                newScale.y *= 1.5f; // Increase the length (adjust as needed).
-                targetChildObject.transform.localScale = newScale;
-
-                Vector3 newPosition = playerToMove.transform.position;
-                newPosition.y *= 1.5f; // Adjust the position (align with object's length increase).
-                playerToMove.transform.position = newPosition;
+                if(newScale.x <= 0.5f){
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }else{
+                    newScale.x -= 0.5f; // Increase the length (adjust as needed).
+                    targetChildObject.transform.localScale = newScale;
+                }
+                
+            }
+            else if(other.CompareTag("FinalPlanet"))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
     }
         
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     // Check if the player enters the trigger zone of the object you want to react to.
-    //     if (other.CompareTag("Planet"))
-    //     {
-            
-    //         Vector3 newScale = transform.localScale - new Vector3(shrinkAmount, shrinkAmount, 0f);
-        
-    //         newScale = Vector3.Max(newScale, new Vector3(minSize, minSize, minSize));
-            
-    //         if (newScale.x <= minSize)
-    //         {
-    //             // Game over condition
-    //             GameOver();
-    //         }else{
-    //             transform.localScale = newScale;
-    //         }
-    //     }
-    // }
-
-
-    // void GameOver()
-    // {
-        
-    //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    // }
+   
+    
 }
